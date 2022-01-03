@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Presentation/Game/Unit.cs" type="Script" id=1]
+[ext_resource path="res://assets/shipsMiscellaneous_sheet.png" type="Texture" id=2]
+[ext_resource path="res://Presentation/Game/Cannon.tscn" type="PackedScene" id=4]
+
+[sub_resource type="AtlasTexture" id=54]
+resource_local_to_scene = true
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 70, 600, 66, 113 )
+
+[sub_resource type="AtlasTexture" id=21]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 280, 110, 14, 22 )
+
+[sub_resource type="AtlasTexture" id=55]
+resource_local_to_scene = true
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 300, 170, 20, 20 )
+
+[node name="Unit" type="Node2D"]
+scale = Vector2( 0.6, 0.55 )
+script = ExtResource( 1 )
+
+[node name="Ship" type="Sprite" parent="."]
+texture = SubResource( 54 )
+
+[node name="Cannon" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0, 47 )
+rotation = 1.5708
+Speed = 400.0
+Lifetime = 0.25
+
+[node name="Flag" type="Sprite" parent="."]
+visible = false
+position = Vector2( 4, -45 )
+texture = SubResource( 21 )
+
+[node name="ShipTypeFlag" type="Sprite" parent="."]
+position = Vector2( 0, -10 )
+texture = SubResource( 55 )

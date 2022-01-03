@@ -1,0 +1,217 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Presentation/UI/UITheme.tres" type="Theme" id=1]
+[ext_resource path="res://Presentation/UI/MainMenu/Menu.cs" type="Script" id=2]
+[ext_resource path="res://assets/ui.png" type="Texture" id=5]
+[ext_resource path="res://Presentation/UI/MainMenu/LadderDialog/LadderDialog.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Presentation/UI/MainMenu/CampaignDialog/CampaignDialog.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Presentation/UI/MainMenu/SettingsDialog/SettingsDialog.tscn" type="PackedScene" id=9]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 32, 68, 12, 13 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 100, 68, 13, 11 )
+
+[node name="Menu" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuContentContainer" type="VBoxContainer" parent="."]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 595.0
+margin_bottom = 795.0
+
+[node name="HeaderContainer" type="HBoxContainer" parent="MenuContentContainer"]
+margin_right = 590.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+custom_constants/separation = 0
+
+[node name="HeaderCaptionLabel" type="Label" parent="MenuContentContainer/HeaderContainer"]
+margin_right = 590.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+text = "Welcome to Godot-RPG"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Dashboard" type="VBoxContainer" parent="MenuContentContainer"]
+margin_top = 42.0
+margin_right = 590.0
+margin_bottom = 432.0
+custom_constants/separation = 50
+
+[node name="DashboardControlContainer" type="HBoxContainer" parent="MenuContentContainer/Dashboard"]
+margin_right = 590.0
+margin_bottom = 170.0
+
+[node name="CampaignContainer" type="VBoxContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer"]
+margin_right = 293.0
+margin_bottom = 170.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CampaignIconContainer" type="CenterContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer/CampaignContainer"]
+margin_right = 293.0
+margin_bottom = 128.0
+
+[node name="CampaignTextureButton" type="TextureButton" parent="MenuContentContainer/Dashboard/DashboardControlContainer/CampaignContainer/CampaignIconContainer"]
+margin_left = 82.0
+margin_right = 210.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+texture_normal = SubResource( 1 )
+expand = true
+stretch_mode = 4
+
+[node name="CampaignLabelContainer" type="CenterContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer/CampaignContainer"]
+margin_top = 132.0
+margin_right = 293.0
+margin_bottom = 170.0
+
+[node name="CampaignLabel" type="Label" parent="MenuContentContainer/Dashboard/DashboardControlContainer/CampaignContainer/CampaignLabelContainer"]
+margin_left = 77.0
+margin_right = 215.0
+margin_bottom = 38.0
+text = "Campaign"
+
+[node name="LadderContainer" type="VBoxContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer"]
+margin_left = 297.0
+margin_right = 590.0
+margin_bottom = 170.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LadderIconContainer" type="CenterContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer/LadderContainer"]
+margin_right = 293.0
+margin_bottom = 128.0
+
+[node name="LadderTextureButton" type="TextureButton" parent="MenuContentContainer/Dashboard/DashboardControlContainer/LadderContainer/LadderIconContainer"]
+margin_left = 82.0
+margin_right = 210.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+texture_normal = SubResource( 2 )
+expand = true
+stretch_mode = 4
+
+[node name="LadderLabelContainer" type="CenterContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer/LadderContainer"]
+margin_top = 132.0
+margin_right = 293.0
+margin_bottom = 170.0
+
+[node name="LadderLabel" type="Label" parent="MenuContentContainer/Dashboard/DashboardControlContainer/LadderContainer/LadderLabelContainer"]
+margin_left = 96.0
+margin_right = 197.0
+margin_bottom = 38.0
+text = "Ladder"
+
+[node name="DashboardControlContainer2" type="HBoxContainer" parent="MenuContentContainer/Dashboard"]
+margin_top = 220.0
+margin_right = 590.0
+margin_bottom = 390.0
+
+[node name="SettingsContainer" type="VBoxContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer2"]
+margin_right = 293.0
+margin_bottom = 170.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SettingsIconContainer" type="CenterContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer2/SettingsContainer"]
+margin_right = 293.0
+margin_bottom = 128.0
+
+[node name="SettingsTextureButton" type="TextureButton" parent="MenuContentContainer/Dashboard/DashboardControlContainer2/SettingsContainer/SettingsIconContainer"]
+margin_left = 82.0
+margin_right = 210.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+texture_normal = SubResource( 3 )
+expand = true
+stretch_mode = 4
+
+[node name="SettingsLabelContainer" type="CenterContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer2/SettingsContainer"]
+margin_top = 132.0
+margin_right = 293.0
+margin_bottom = 170.0
+
+[node name="SettingsLabel" type="Label" parent="MenuContentContainer/Dashboard/DashboardControlContainer2/SettingsContainer/SettingsLabelContainer"]
+margin_left = 87.0
+margin_right = 206.0
+margin_bottom = 38.0
+text = "Settings"
+
+[node name="ExitContainer" type="VBoxContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer2"]
+margin_left = 297.0
+margin_right = 590.0
+margin_bottom = 170.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ExitIconContainer" type="CenterContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer2/ExitContainer"]
+margin_right = 293.0
+margin_bottom = 128.0
+
+[node name="ExitTextureButton" type="TextureButton" parent="MenuContentContainer/Dashboard/DashboardControlContainer2/ExitContainer/ExitIconContainer"]
+margin_left = 82.0
+margin_right = 210.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 128, 128 )
+texture_normal = SubResource( 4 )
+expand = true
+stretch_mode = 4
+
+[node name="ExitLabelContainer" type="CenterContainer" parent="MenuContentContainer/Dashboard/DashboardControlContainer2/ExitContainer"]
+margin_top = 132.0
+margin_right = 293.0
+margin_bottom = 170.0
+
+[node name="ExitLabel" type="Label" parent="MenuContentContainer/Dashboard/DashboardControlContainer2/ExitContainer/ExitLabelContainer"]
+margin_left = 118.0
+margin_right = 175.0
+margin_bottom = 38.0
+text = "Exit"
+
+[node name="LadderDialog" parent="." instance=ExtResource( 7 )]
+margin_right = 595.0
+margin_bottom = 795.0
+
+[node name="CampaignDialog" parent="." instance=ExtResource( 8 )]
+margin_right = 595.0
+margin_bottom = 795.0
+
+[node name="SettingsDialog" parent="." instance=ExtResource( 9 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 595.0
+margin_bottom = 795.0

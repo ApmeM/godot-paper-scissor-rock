@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Presentation/Game/Battle.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Presentation/Game/Game.cs" type="Script" id=2]
+[ext_resource path="res://Presentation/Game/Preparation.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Presentation/Game/Unit.tscn" type="PackedScene" id=4]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Preparation" parent="." instance=ExtResource( 3 )]
+visible = false
+UnitScene = ExtResource( 4 )
+
+[node name="Battle" parent="." instance=ExtResource( 1 )]
+visible = false
