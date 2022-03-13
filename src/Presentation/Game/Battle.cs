@@ -77,32 +77,37 @@ public partial class Battle : Node2D
 
         foreach (var unit in initialData.YourUnits)
         {
+            var mapPos = this.turnLogic.RotateToPlayer(unit.Position, new Vector2(visibleMap.GetLength(0), visibleMap.GetLength(1)), 1) + Vector2.One;
+            
             var unitSceneInstance = (Unit)UnitScene.Instance();
-
             unitSceneInstance.FullUnitId = UnitUtils.GetFullUnitId(initialData.YourPlayerId, unit.UnitId);
             unitSceneInstance.UnitType = unit.UnitType;
             unitSceneInstance.PlayerNumber = 1;
             unitSceneInstance.Rotation = Mathf.Pi;
-            unitSceneInstance.Position = this.maze.GetSpritePositionForCell(this.turnLogic.RotateToPlayer(unit.Position, new Vector2(visibleMap.GetLength(0), visibleMap.GetLength(1)), 1) + Vector2.One);
+            unitSceneInstance.Position = this.maze.GetSpritePositionForCell(mapPos + Vector2.Down * 4);
             unitSceneInstance.AddToGroup(Groups.MyUnits);
             unitSceneInstance.AddToGroup(Groups.AllUnits);
             this.maze.AddChild(unitSceneInstance);
             allUnits.Add(unitSceneInstance);
+            unitSceneInstance.MoveUnitTo(mapPos);
         }
 
         foreach (var player in initialData.OtherPlayers)
         {
             foreach (var unit in player.Units)
             {
+                var mapPos = this.turnLogic.RotateToPlayer(unit.Position, new Vector2(visibleMap.GetLength(0), visibleMap.GetLength(1)), 1) + Vector2.One;
+                
                 var unitSceneInstance = (Unit)UnitScene.Instance();
                 unitSceneInstance.FullUnitId = UnitUtils.GetFullUnitId(player.PlayerId, unit.UnitId);
                 unitSceneInstance.UnitType = UnitType.Unknown;
                 unitSceneInstance.PlayerNumber = 0;
-                unitSceneInstance.Position = this.maze.GetSpritePositionForCell(this.turnLogic.RotateToPlayer(unit.Position, new Vector2(visibleMap.GetLength(0), visibleMap.GetLength(1)), 1) + Vector2.One);
+                unitSceneInstance.Position = this.maze.GetSpritePositionForCell(mapPos + Vector2.Up * 4);
                 unitSceneInstance.AddToGroup(Groups.OtherUnits);
                 unitSceneInstance.AddToGroup(Groups.AllUnits);
                 this.maze.AddChild(unitSceneInstance);
                 allUnits.Add(unitSceneInstance);
+                unitSceneInstance.MoveUnitTo(mapPos);
             }
         }
 
