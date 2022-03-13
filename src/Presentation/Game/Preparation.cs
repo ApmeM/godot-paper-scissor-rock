@@ -112,8 +112,8 @@ public partial class Preparation : Node2D
             .Select(a => new TransferConnectData.UnitData
             {
                 UnitType = a.UnitType,
-                X = (int)a.TargetPositionMap.Value.x - 1,
-                Y = (int)a.TargetPositionMap.Value.y - 1
+                X = (config.MapWidth - 1) - ((int)a.TargetPositionMap.Value.x - 1),
+                Y = (config.StartHeight - 1) - ((int)a.TargetPositionMap.Value.y - 1)
             })
             .ToList()
         };
