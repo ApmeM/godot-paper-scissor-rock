@@ -4,7 +4,7 @@ namespace IsometricGame.Presentation.Game.UnitAction
 {
     public class RotateUnitAction : IUnitAction
     {
-        private const float ROTATION_SPEED = 0.05f;
+        private const float ROTATION_SPEED = 0.1f;
         
         private readonly Unit unit;
         private readonly Vector2 destination;
