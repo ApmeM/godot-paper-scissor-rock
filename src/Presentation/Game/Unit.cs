@@ -37,6 +37,9 @@ public partial class Unit : Node2D
     [Export]
     public bool IsSelected { get; set; }
 
+    [Signal]
+    public delegate void AllActionsDone();
+
     public bool IsDead { get; private set; }
 
     public override void _Ready()
@@ -88,6 +91,10 @@ public partial class Unit : Node2D
             if (isActionDone)
             {
                 PendingActions.Dequeue();
+                if (PendingActions.Count == 0)
+                {
+                    this.EmitSignal(nameof(AllActionsDone));
+                }
             }
         }
     }

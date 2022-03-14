@@ -68,6 +68,7 @@ public partial class Preparation : Node2D
         this.Timeout = config.TurnTimeout - 1;
 
         this.startButton.Visible = true;
+        this.randomButton.Visible = true;
         this.maze.Initialize();
         this.maze.AddWater(new Rect2(-1, -1, 12, 14));
         this.maze.AddBeach(new Rect2(-1, 8, 12, 7));
@@ -94,7 +95,7 @@ public partial class Preparation : Node2D
         this.waveGenerator.Start(allUnits.Cast<Node2D>().ToList());
     }
 
-    public void StartPressed()
+    public async void StartPressed()
     {
         var myUnits = this.GetTree().GetNodesInGroup(Groups.MyUnits).Cast<Unit>().ToList();
         foreach (var unit in myUnits)
@@ -104,6 +105,7 @@ public partial class Preparation : Node2D
 
         this.maze.RemoveHighliting();
         this.startButton.Visible = false;
+        this.randomButton.Visible = false;
 
         var data = new TransferConnectData
         {
@@ -118,6 +120,13 @@ public partial class Preparation : Node2D
             .ToList()
         };
         this.Timeout = null;
+
+        foreach (var unit in myUnits)
+        {
+            unit.MoveUnitTo(new Vector2(unit.TargetPositionMap.Value.x, -1));
+        }
+
+        await Task.WhenAll(myUnits.Select(async unit => await this.GetTree().ToSignal(unit, nameof(Unit.AllActionsDone))));
 
         this.communicator.ConnectToGame(data);
     }
