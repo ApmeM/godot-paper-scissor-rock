@@ -2,6 +2,7 @@
 {
     public enum Bot
     {
+        VeryEasy,
         Easy,
     };
 }

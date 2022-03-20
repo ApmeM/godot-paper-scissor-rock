@@ -1,3 +1,4 @@
+using Godot;
 using IsometricGame.Business.Plugins.Enums;
 using IsometricGame.Logic.Enums;
 using IsometricGame.Logic.Models;
@@ -9,10 +10,11 @@ namespace IsometricGame.Business.Plugins.GameTypes
     {
         public GameType GameType => GameType.CampaignLevel1;
 
+        public Vector2 Position => new Vector2(2, 9);
 
         public IEnumerable<Bot> GetPredefinedBots()
         {
-            yield return Bot.Easy;
+            yield return Bot.VeryEasy;
         }
 
         public void PopulateConfig(GameData.GameConfiguration gameConfiguration)

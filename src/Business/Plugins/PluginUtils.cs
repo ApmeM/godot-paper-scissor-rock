@@ -1,4 +1,5 @@
 ﻿using IsometricGame.Business.Plugins.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,6 +18,7 @@ namespace IsometricGame.Business.Plugins
         }
 
         private Dictionary<Bot, IBot> SupportedBots;
+
         private Dictionary<GameType, IGameType> SupportedGameTypes;
         private Dictionary<UnitType, IUnitType> SupportedUnitTypes;
 
@@ -48,6 +50,11 @@ namespace IsometricGame.Business.Plugins
             }
 
             return SupportedUnitTypes[unitType];
+        }
+        
+        public List<IGameType> GetGameTypes()
+        {
+            return this.SupportedGameTypes.Values.ToList();
         }
     }
 }

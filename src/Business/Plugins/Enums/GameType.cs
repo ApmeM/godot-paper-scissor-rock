@@ -3,6 +3,7 @@
     public enum GameType
     {
         Custom,
-        CampaignLevel1
+        CampaignLevel1,
+        CampaignLevel2,
     }
 }

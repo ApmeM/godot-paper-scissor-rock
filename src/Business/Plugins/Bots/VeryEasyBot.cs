@@ -2,48 +2,30 @@ using FateRandom;
 using Godot;
 using IsometricGame.Business.Models.TransferData;
 using IsometricGame.Business.Plugins.Enums;
-using IsometricGame.Logic.ScriptHelpers;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace IsometricGame.Business.Plugins.Bots
 {
-    public class EasyBot : IBot
+    public class VeryEasyBot : IBot
     {
-        public Bot Bot => Bot.Easy;
+        public Bot Bot => Bot.VeryEasy;
 
         public TransferConnectData StartGame(TransferStartGameData startGameData)
         {
-            Fate.GlobalFate.Shuffle(startGameData.AvailableUnits);
-            var units = new List<TransferConnectData.UnitData>();
-
-            for (var x = 0; x < startGameData.MapWidth; x++)
-            {
-                for (var y = 0; y < 2; y++)
-                {
-                    var idx = y * startGameData.MapWidth + x;
-                    if (startGameData.AvailableUnits.Count > idx)
-                    {
-                        var unit = startGameData.AvailableUnits[idx];
-                        units.Add(new TransferConnectData.UnitData
-                        {
-                            UnitType = unit,
-                            X = x,
-                            Y = y
-                        });
-                    }
-                }
-            }
-
-            var tmpUnits = new List<TransferConnectData.UnitData>
+            var units = new List<TransferConnectData.UnitData>
             {
                 new TransferConnectData.UnitData
                 {
-                    UnitType = UnitType.Flag, X = 1, Y = 1
+                    UnitType = UnitType.Flag,
+                    X = 0,
+                    Y = 0
                 },
                 new TransferConnectData.UnitData
                 {
-                    UnitType = UnitType.Flag, X = 1, Y = 2
+                    UnitType = UnitType.Scissor,
+                    X = 1,
+                    Y = 1
                 }
             };
 

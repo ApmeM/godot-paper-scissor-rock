@@ -24,12 +24,14 @@ namespace IsometricGame.Logic.Utils
             pluginUtils.Initialize(
                 new List<IBot>
                 {
+                    new VeryEasyBot(),
                     new EasyBot(),
                 },
                 new List<IGameType>
                 {
                     new CustomGameType(),
                     new CampaignLevel1GameType(),
+                    new CampaignLevel2GameType(),
                 },
                 new List<IUnitType>
                 {

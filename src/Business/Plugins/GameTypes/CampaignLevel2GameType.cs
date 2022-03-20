@@ -6,22 +6,20 @@ using System.Collections.Generic;
 
 namespace IsometricGame.Business.Plugins.GameTypes
 {
-    public class CustomGameType : IGameType
+    public class CampaignLevel2GameType : IGameType
     {
-        public GameType GameType => GameType.Custom;
+        public GameType GameType => GameType.CampaignLevel2;
 
-        public int StartHeight => 2;
-
-        public Vector2 Position => Vector2.Zero;
+        public Vector2 Position => new Vector2(3, 2);
 
         public IEnumerable<Bot> GetPredefinedBots()
         {
-            yield break;
+            yield return Bot.Easy;
         }
 
         public void PopulateConfig(GameData.GameConfiguration gameConfiguration)
         {
-            var map = new MapTile[9, 9];
+            var map = new MapTile[8, 8];
             for (var x = 0; x < map.GetLength(0); x++)
                 for (var y = 0; y < map.GetLength(1); y++)
                 {
@@ -31,11 +29,11 @@ namespace IsometricGame.Business.Plugins.GameTypes
             gameConfiguration.Map = map;
             gameConfiguration.AvailableUnits = new List<UnitType>
             {
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
                 UnitType.Flag,
             };
             gameConfiguration.StartHeight = 2;

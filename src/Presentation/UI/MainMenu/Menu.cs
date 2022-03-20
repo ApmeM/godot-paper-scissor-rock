@@ -1,11 +1,19 @@
 using Godot;
+using IsometricGame.Business.Plugins;
+using IsometricGame.Logic.Utils;
 using IsometricGame.Presentation;
 using System.Threading.Tasks;
 
 [SceneReference("Menu.tscn")]
-public partial class Menu : Container
+public partial class Menu : Node2D
 {
     private Communicator communicator;
+    private PluginUtils pluginUtils;
+
+    public Menu()
+    {
+        this.pluginUtils = DependencyInjector.pluginUtils;
+    }
 
     public override void _Ready()
     {
@@ -13,11 +21,60 @@ public partial class Menu : Container
         this.FillMembers();
         this.communicator = GetNode<Communicator>("/root/Communicator");
 
-        this.campaignTextureButton.Connect("pressed", this, nameof(OnCampaignPressed));
-        this.ladderTextureButton.Connect("pressed", this, nameof(OnLadderPressed));
-        this.settingsTextureButton.Connect("pressed", this, nameof(OnSettingsPressed));
-        this.exitTextureButton.Connect("pressed", this, nameof(OnExitPressed));
+        var allGameTypes = this.pluginUtils.GetGameTypes();
+        foreach (var gameType in allGameTypes)
+        {
+            if (gameType.Position == Vector2.Zero)
+            {
+                continue;
+            }
+
+            this.tileMap3.SetCellv(gameType.Position, Maze.wallCell);
+
+            this.tileMap3.UpdateBitmaskRegion(gameType.Position, Vector2.One);
+        }
     }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        base._UnhandledInput(@event);
+        if (!IsVisibleInTree())
+        {
+            return;
+        }
+
+        if (@event is InputEventScreenTouch eventMouseButton && eventMouseButton.Pressed)
+        {
+            GetTree().SetInputAsHandled();
+
+            var position = this.GetGlobalMousePosition(); // eventMouseButton.Position;
+            var cell = this.tileMap.WorldToMap(position);
+
+            if (cell.x > -1 && cell.x < 5 && cell.y > 2 && cell.y < 8)
+            {
+                OnLadderPressed();
+                return;
+            }
+
+            if (this.tileMap3.GetCellv(cell) != Maze.wallCell)
+            {
+                return;
+            }
+
+            var allGameTypes = this.pluginUtils.GetGameTypes();
+            foreach (var gameType in allGameTypes)
+            {
+                if (gameType.Position != cell)
+                {
+                    continue;
+                }
+                
+                OnCampaignPressed(gameType);
+                return;
+            }
+        }
+    }
+
 
     #region Dashboard
 
@@ -30,13 +87,23 @@ public partial class Menu : Container
         this.ladderDialog.PopupCentered();
     }
 
-    private async void OnCampaignPressed()
+    private async void OnCampaignPressed(IGameType gameType)
     {
         if (!await this.CreateConnection(true))
         {
             return;
         }
-        this.campaignDialog.PopupCentered();
+
+        this.communicator.CreateAndJoinLobby(gameType.GameType);
+        var joinSuccess = (bool)(await this.ToSignal(this.communicator, nameof(Communicator.CreateLobbyDone)))[1];
+        if (!joinSuccess)
+        {
+            GD.Print("Join lobby failed in CampaignDialog. Not implemented yet.");
+            return;
+        }
+
+        this.communicator.StartGame();
+        this.Hide();
     }
 
     private void OnSettingsPressed()

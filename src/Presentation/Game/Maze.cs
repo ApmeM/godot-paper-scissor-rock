@@ -9,9 +9,9 @@ using System.Linq;
 [SceneReference("Maze.tscn")]
 public partial class Maze : Node2D
 {
-    private const int waterCell = 4;
-    private const int beachCell = 2;
-    private const int wallCell = 3;
+    public const int waterCell = 4;
+    public const int beachCell = 2;
+    public const int wallCell = 3;
 
     private const int attackCell = 1;
     private const int moveCell = 2;
@@ -133,7 +133,7 @@ public partial class Maze : Node2D
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        base._Input(@event);
+        base._UnhandledInput(@event);
         if (!IsVisibleInTree())
         {
             return;
