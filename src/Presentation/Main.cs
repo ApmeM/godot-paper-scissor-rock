@@ -21,11 +21,15 @@ public partial class Main : Node
     {
         this.game.Show();
         this.menu.Hide();
+        this.draggableCamera.enabled = false;
+        this.draggableCamera.Position = Vector2.Zero;
+        this.draggableCamera.NormalizedZoom = 0;
     }
 
     public void GameOver(string data)
     {
         this.game.Hide();
         this.menu.Show();
+        this.draggableCamera.enabled = true;
     }
 }

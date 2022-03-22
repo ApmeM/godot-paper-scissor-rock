@@ -1,6 +1,5 @@
 using Godot;
 using IsometricGame.Business.Utils;
-using IsometricGame.Logic.Enums;
 using IsometricGame.Presentation;
 using System;
 using System.Collections.Generic;
@@ -9,9 +8,9 @@ using System.Linq;
 [SceneReference("Maze.tscn")]
 public partial class Maze : Node2D
 {
-    public const int waterCell = 4;
-    public const int beachCell = 2;
-    public const int wallCell = 3;
+    private const int waterCell = 4;
+    private const int beachCell = 2;
+    private const int wallCell = 3;
 
     private const int attackCell = 1;
     private const int moveCell = 2;
@@ -41,26 +40,39 @@ public partial class Maze : Node2D
     {
         base._Ready();
         this.FillMembers();
+
+        foreach (Vector2 water in this.level1.GetUsedCells())
+        {
+            AddWater(water);
+        }
+        foreach (Vector2 beach in this.level2.GetUsedCells())
+        {
+            AddBeach(beach);
+        }
+        foreach (Vector2 wall in this.level3.GetUsedCells())
+        {
+            AddWall(wall);
+        }
     }
 
-    public void AddWall(Vector2 pos)
+    public void AddWall(Vector2 pos, bool isWall = true)
     {
-        AddCellToLevel(this.level3, pos, wallCell, true);
+        AddCellToLevel(this.level3, pos, wallCell, isWall);
     }
 
-    public void AddWall(Rect2 pos)
+    public void AddWall(Rect2 pos, bool isWall = true)
     {
-        AddCellToLevel(this.level3, pos, wallCell, true);
+        AddCellToLevel(this.level3, pos, wallCell, isWall);
     }
 
-    public void AddBeach(Vector2 pos)
+    public void AddBeach(Vector2 pos, bool isWall = true)
     {
-        AddCellToLevel(this.level2, pos, beachCell, true);
+        AddCellToLevel(this.level2, pos, beachCell, isWall);
     }
 
-    public void AddBeach(Rect2 pos)
+    public void AddBeach(Rect2 pos, bool isWall = true)
     {
-        AddCellToLevel(this.level2, pos, beachCell, true);
+        AddCellToLevel(this.level2, pos, beachCell, isWall);
     }
 
     public void AddWater(Vector2 pos, bool isWall = false)
@@ -127,7 +139,9 @@ public partial class Maze : Node2D
     {
         this.level1.Clear();
         this.level2.Clear();
+        this.level3.Clear();
         this.highliteLevel.Clear();
+        this.MapGraph.Walls.Clear();
         RemoveHighliting();
     }
 

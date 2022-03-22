@@ -1,7 +1,10 @@
+using BrainAI.Pathfinding.BreadthFirst;
 using Godot;
 using IsometricGame.Business.Plugins;
 using IsometricGame.Logic.Utils;
 using IsometricGame.Presentation;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 [SceneReference("Menu.tscn")]
@@ -29,52 +32,59 @@ public partial class Menu : Node2D
                 continue;
             }
 
-            this.tileMap3.SetCellv(gameType.Position, Maze.wallCell);
-
-            this.tileMap3.UpdateBitmaskRegion(gameType.Position, Vector2.One);
+            this.maze.AddWall(gameType.Position, false);
         }
+
+        this.maze.AddWall(new Vector2(5,5), false);
+
+        this.maze.Connect(nameof(Maze.CellSelected), this, nameof(CellSelected));
     }
 
-    public override void _UnhandledInput(InputEvent @event)
+    public void CellSelected(Vector2 cell)
     {
-        base._UnhandledInput(@event);
-        if (!IsVisibleInTree())
+        var path = BreadthFirstPathfinder.Search(maze.MapGraph, maze.WorldToMap(this.unit.Position), cell);
+
+        if (path == null)
         {
             return;
         }
 
-        if (@event is InputEventScreenTouch eventMouseButton && eventMouseButton.Pressed)
+        Action<Unit> callback = null;
+        if (cell.x == 5 && cell.y == 5)
         {
-            GetTree().SetInputAsHandled();
+            callback = unit => OnLadderPressed();
+        }
 
-            var position = this.GetGlobalMousePosition(); // eventMouseButton.Position;
-            var cell = this.tileMap.WorldToMap(position);
-
-            if (cell.x > -1 && cell.x < 5 && cell.y > 2 && cell.y < 8)
+        var allGameTypes = this.pluginUtils.GetGameTypes();
+        foreach (var gameType in allGameTypes)
+        {
+            if (gameType.Position != cell)
             {
-                OnLadderPressed();
-                return;
+                continue;
             }
 
-            if (this.tileMap3.GetCellv(cell) != Maze.wallCell)
-            {
-                return;
-            }
+            callback = unit => OnCampaignPressed(gameType);
+            break;
+        }
 
-            var allGameTypes = this.pluginUtils.GetGameTypes();
-            foreach (var gameType in allGameTypes)
-            {
-                if (gameType.Position != cell)
-                {
-                    continue;
-                }
-                
-                OnCampaignPressed(gameType);
-                return;
-            }
+        this.unit.CancelActions();
+        foreach (var point in path.Skip(1).Take(path.Count - 2))
+        {
+            this.unit.RotateUnitTo(point);
+            this.unit.MoveUnitTo(point);
+        }
+
+        this.unit.RotateUnitTo(path[path.Count - 1]);
+        if (callback != null)
+        {
+            this.unit.Attack();
+            this.unit.CallbackForUnit(callback);
+        }
+        else
+        {
+            this.unit.MoveUnitTo(cell);
         }
     }
-
 
     #region Dashboard
 
@@ -109,11 +119,6 @@ public partial class Menu : Node2D
     private void OnSettingsPressed()
     {
         this.settingsDialog.PopupCentered();
-    }
-
-    private void OnExitPressed()
-    {
-        this.GetTree().Quit();
     }
 
     private async Task<bool> CreateConnection(bool createAsServer = false)

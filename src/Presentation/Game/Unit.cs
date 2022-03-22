@@ -2,6 +2,7 @@ using Godot;
 using IsometricGame.Business.Plugins.Enums;
 using IsometricGame.Presentation;
 using IsometricGame.Presentation.Game.UnitAction;
+using System;
 using System.Collections.Generic;
 
 [SceneReference("Unit.tscn")]
@@ -121,6 +122,11 @@ public partial class Unit : Node2D
     {
         var maze = this.GetParent<Maze>();
         this.PendingActions.Enqueue(new RotateUnitAction(this, maze.GetSpritePositionForCell(lookAtCell)));
+    }
+
+    public void CallbackForUnit(Action<Unit> callback)
+    {
+        this.PendingActions.Enqueue(new CallbackUnitAction(this, callback));
     }
 
     public void CancelActions()
