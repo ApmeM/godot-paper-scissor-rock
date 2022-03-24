@@ -5,6 +5,7 @@ using IsometricGame.Business.Plugins.Enums;
 using IsometricGame.Logic.Utils;
 using IsometricGame.Presentation;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,8 +37,6 @@ public partial class Menu : Node2D
                 continue;
             }
 
-            GD.Print($"gameType {gameType.GameType}");
-
             var item = (MenuItem)MenuItemScene.Instance();
             item.Points = gameType.Position;
             item.Text = gameType.Text;
@@ -50,6 +49,10 @@ public partial class Menu : Node2D
 
         this.maze.Connect(nameof(Maze.CellSelected), this, nameof(CellSelected));
         this.menuItem.Connect(nameof(MenuItem.ItemSelected), this, nameof(ItemSelected), new Godot.Collections.Array { -1 });
+
+        this.maze.MapGraph.Walls.Remove(this.menuItem.ShootPosition);
+
+        this.waveGenerator.Start(new List<Node2D> { this.unit });
     }
 
     public void ItemSelected(MenuItem menuItem, int gameType)
