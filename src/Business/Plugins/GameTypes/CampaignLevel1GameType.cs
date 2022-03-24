@@ -6,11 +6,21 @@ using System.Collections.Generic;
 
 namespace IsometricGame.Business.Plugins.GameTypes
 {
-    public class CampaignLevel1GameType : IGameType
+    public class CampaignLevel1GameType : IPresentationGameType
     {
         public GameType GameType => GameType.CampaignLevel1;
 
-        public Vector2 Position => new Vector2(2, 9);
+        public Vector2 ShootPosition => new Vector2(6,3);
+
+        public string Text => "Level 1";
+
+        public List<Vector2> Position => new List<Vector2>
+        {
+            new Vector2(5,1),
+            new Vector2(7,1),
+            new Vector2(7,3),
+            new Vector2(5,3),
+        };
 
         public IEnumerable<Bot> GetPredefinedBots()
         {

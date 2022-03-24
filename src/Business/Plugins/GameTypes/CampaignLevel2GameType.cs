@@ -6,11 +6,22 @@ using System.Collections.Generic;
 
 namespace IsometricGame.Business.Plugins.GameTypes
 {
-    public class CampaignLevel2GameType : IGameType
+    public class CampaignLevel2GameType : IPresentationGameType
     {
         public GameType GameType => GameType.CampaignLevel2;
 
-        public Vector2 Position => new Vector2(3, 2);
+
+        public Vector2 ShootPosition => new Vector2(4, 10);
+
+        public string Text => "Level 2";
+
+        public List<Vector2> Position => new List<Vector2>
+        {
+            new Vector2(3,10),
+            new Vector2(5,10),
+            new Vector2(5,12),
+            new Vector2(3,12),
+        };
 
         public IEnumerable<Bot> GetPredefinedBots()
         {
@@ -29,11 +40,11 @@ namespace IsometricGame.Business.Plugins.GameTypes
             gameConfiguration.Map = map;
             gameConfiguration.AvailableUnits = new List<UnitType>
             {
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
-                UnitType.Paper, UnitType.Scissor, UnitType.Stone, 
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
+                UnitType.Paper, UnitType.Scissor, UnitType.Stone,
                 UnitType.Flag,
             };
             gameConfiguration.StartHeight = 2;

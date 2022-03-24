@@ -1,6 +1,7 @@
 using BrainAI.Pathfinding.BreadthFirst;
 using Godot;
 using IsometricGame.Business.Plugins;
+using IsometricGame.Business.Plugins.Enums;
 using IsometricGame.Logic.Utils;
 using IsometricGame.Presentation;
 using System;
@@ -10,6 +11,9 @@ using System.Threading.Tasks;
 [SceneReference("Menu.tscn")]
 public partial class Menu : Node2D
 {
+    [Export]
+    public PackedScene MenuItemScene;
+
     private Communicator communicator;
     private PluginUtils pluginUtils;
 
@@ -24,47 +28,58 @@ public partial class Menu : Node2D
         this.FillMembers();
         this.communicator = GetNode<Communicator>("/root/Communicator");
 
-        var allGameTypes = this.pluginUtils.GetGameTypes();
+        var allGameTypes = this.pluginUtils.GetGameTypes().OfType<IPresentationGameType>();
         foreach (var gameType in allGameTypes)
         {
-            if (gameType.Position == Vector2.Zero)
+            if (gameType.Position == null)
             {
                 continue;
             }
 
-            this.maze.AddWall(gameType.Position, false);
+            GD.Print($"gameType {gameType.GameType}");
+
+            var item = (MenuItem)MenuItemScene.Instance();
+            item.Points = gameType.Position;
+            item.Text = gameType.Text;
+            item.ShootPosition = gameType.ShootPosition;
+            item.Connect(nameof(MenuItem.ItemSelected), this, nameof(ItemSelected), new Godot.Collections.Array {(int)gameType.GameType });
+            this.AddChild(item);
+
+            this.maze.MapGraph.Walls.Remove(gameType.ShootPosition);
         }
 
-        this.maze.AddWall(new Vector2(5,5), false);
-
         this.maze.Connect(nameof(Maze.CellSelected), this, nameof(CellSelected));
+        this.menuItem.Connect(nameof(MenuItem.ItemSelected), this, nameof(ItemSelected), new Godot.Collections.Array { -1 });
+    }
+
+    public void ItemSelected(MenuItem menuItem, int gameType)
+    {
+        Action<Unit> callback = null;
+        if (gameType == -1)
+        {
+            callback = unit => OnLadderPressed();
+        }
+        else
+        {
+            var item = pluginUtils.FindGameType((GameType)gameType);
+            callback = unit => OnCampaignPressed(item);
+        }
+
+        MoveUnitTo(menuItem.ShootPosition, callback);
     }
 
     public void CellSelected(Vector2 cell)
+    {
+        MoveUnitTo(cell, null);
+    }
+
+    private void MoveUnitTo(Vector2 cell, Action<Unit> callback)
     {
         var path = BreadthFirstPathfinder.Search(maze.MapGraph, maze.WorldToMap(this.unit.Position), cell);
 
         if (path == null)
         {
             return;
-        }
-
-        Action<Unit> callback = null;
-        if (cell.x == 5 && cell.y == 5)
-        {
-            callback = unit => OnLadderPressed();
-        }
-
-        var allGameTypes = this.pluginUtils.GetGameTypes();
-        foreach (var gameType in allGameTypes)
-        {
-            if (gameType.Position != cell)
-            {
-                continue;
-            }
-
-            callback = unit => OnCampaignPressed(gameType);
-            break;
         }
 
         this.unit.CancelActions();

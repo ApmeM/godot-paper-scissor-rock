@@ -8,7 +8,6 @@ namespace IsometricGame.Business.Plugins
     public interface IGameType
     {
         GameType GameType { get; }
-        Vector2 Position { get; }
 
         void PopulateConfig(GameData.GameConfiguration gameConfiguration);
         IEnumerable<Bot> GetPredefinedBots();

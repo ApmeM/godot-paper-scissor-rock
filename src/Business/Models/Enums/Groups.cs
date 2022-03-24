@@ -5,5 +5,6 @@
         public static string AllUnits = nameof(AllUnits);
         public static string MyUnits = nameof(MyUnits);
         public static string OtherUnits = nameof(OtherUnits);
+        public static string CampaignFortrees = nameof(CampaignFortrees);
     }
 }
