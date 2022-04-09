@@ -1,6 +1,6 @@
 using Godot;
+using GodotAnalysers;
 using IsometricGame.Business.Models.TransferData;
-using IsometricGame.Presentation;
 using Newtonsoft.Json;
 
 [SceneReference("Game.tscn")]

@@ -1,5 +1,5 @@
 using Godot;
-using IsometricGame.Presentation;
+using GodotAnalysers;
 using System.Collections.Generic;
 
 [Tool]

@@ -1,6 +1,6 @@
 using Godot;
+using GodotAnalysers;
 using IsometricGame.Logic.Utils;
-using IsometricGame.Presentation;
 using IsometricGame.Repository;
 
 [SceneReference("SettingsDialog.tscn")]

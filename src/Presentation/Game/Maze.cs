@@ -1,6 +1,6 @@
 using Godot;
+using GodotAnalysers;
 using IsometricGame.Business.Utils;
-using IsometricGame.Presentation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

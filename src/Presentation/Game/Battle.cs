@@ -1,5 +1,6 @@
 using BrainAI.Pathfinding.BreadthFirst;
 using Godot;
+using GodotAnalysers;
 using IsometricGame.Business.Logic;
 using IsometricGame.Business.Models.TransferData;
 using IsometricGame.Business.Plugins;
@@ -7,7 +8,6 @@ using IsometricGame.Business.Plugins.Enums;
 using IsometricGame.Logic.Enums;
 using IsometricGame.Logic.ScriptHelpers;
 using IsometricGame.Logic.Utils;
-using IsometricGame.Presentation;
 using System.Collections.Generic;
 using System.Linq;
 

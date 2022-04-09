@@ -1,5 +1,5 @@
 using Godot;
-using IsometricGame.Presentation;
+using GodotAnalysers;
 
 [SceneReference("Main.tscn")]
 public partial class Main : Node
